@@ -176,7 +176,7 @@ TartanHabari (Swahili for "Tartan News") serves as the central hub for CMU Afric
 **Year:** 2025
 
 **Team Members:**
-- - Christian BYABUSHI
+- Christian BYABUSHI
 -   Temidayo AKANMU
 -  Jeanne MUHIMPU
 
