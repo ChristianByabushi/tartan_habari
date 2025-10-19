@@ -1,8 +1,38 @@
 // main.dart
+// COMPLETE TARTANHABARI APP - SINGLE FILE VERSION
+// 
+// CUSTOMIZATION GUIDE:
+// ===================
+// 1. TO ADD YOUR OWN IMAGES/VIDEOS TO CAROUSEL (Line 370-380):
+//    Replace the URLs in carouselImages list with:
+//    - 'assets/images/carousel/slide1.jpg'
+//    - 'assets/images/carousel/slide2.jpg'
+//    - 'assets/videos/campus_tour.mp4' (for video)
+//
+// 2. TO ADD YOUR LOGO (Line 70-90):
+//    Replace the Icon widget with:
+//    Image.asset('assets/images/logo.png', width: 60, height: 60)
+//
+// 3. ASSET FOLDER STRUCTURE:
+//    assets/
+//    ├── images/
+//    │   ├── logo.png
+//    │   └── carousel/
+//    │       ├── slide1.jpg
+//    │       ├── slide2.jpg
+//    │       └── slide3.jpg
+//    └── videos/
+//        └── campus_tour.mp4
+//
+// 4. UPDATE pubspec.yaml:
+//    flutter:
+//      assets:
+//        - assets/images/
+//        - assets/images/carousel/
+//        - assets/videos/
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:video_player/video_player.dart';
-import 'dart:convert';
 
 void main() {
   runApp(const TartanHabariApp());
@@ -17,7 +47,7 @@ class TartanHabariApp extends StatelessWidget {
       title: 'TartanHabari',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xFFC41E3A), // Polished CMU Red
+        primaryColor: const Color(0xFFC41E3A),
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFFC41E3A),
           primary: const Color(0xFFC41E3A),
@@ -26,6 +56,12 @@ class TartanHabariApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFFC41E3A),
           elevation: 0,
+          iconTheme: IconThemeData(color: Colors.white),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       home: const LoginPage(),
@@ -50,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = true);
     
     Future.delayed(const Duration(seconds: 1), () {
-      if (_usernameController.text == 'studentcmu' && 
+      if (_usernameController.text == 'tartancmu' && 
           _passwordController.text == 'password') {
         Navigator.pushReplacement(
           context,
@@ -59,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Invalid credentials. Use: studentcmu / password'),
+            content: Text('Invalid credentials. Use: tartancmu / password'),
             backgroundColor: Colors.red,
           ),
         );
@@ -87,20 +123,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 const SizedBox(height: 40),
-                // Logo Space
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFC41E3A),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.newspaper,
-                    size: 60,
-                    color: Colors.white,
-                  ),
-                ),
+                Image.asset('assets/images/logo.png', width: 120, height: 120),
                 const SizedBox(height: 24),
                 const Text(
                   'TartanHabari',
@@ -112,14 +135,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const Text(
                   'CMU Africa Campus Connect',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 const SizedBox(height: 48),
                 
-                // Username Field
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
@@ -132,7 +151,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 16),
                 
-                // Password Field
                 TextField(
                   controller: _passwordController,
                   obscureText: true,
@@ -146,7 +164,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 24),
                 
-                // Login Button
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -171,14 +188,13 @@ class _LoginPageState extends State<LoginPage> {
                 const Text('OR', style: TextStyle(color: Colors.grey)),
                 const SizedBox(height: 16),
                 
-                // Google Sign Up Button
                 SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: OutlinedButton.icon(
                     onPressed: _signUpWithGoogle,
                     icon: const Icon(Icons.mail, color: Colors.red),
-                    label: const Text('Sign Up with Google'),
+                    label: const Text('Sign Up with Andrew ID'),
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Colors.grey),
                       shape: RoundedRectangleBorder(
@@ -190,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 24),
                 
                 const Text(
-                  'Demo: studentcmu / password',
+                  'To test our app just use this credentials: tartancmu / password',
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ],
@@ -243,16 +259,16 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ==================== HOME CONTENT PAGE ====================
+// ==================== HOME CONTENT PAGE WITH DRAWER MENU ====================
 class HomeContentPage extends StatelessWidget {
   const HomeContentPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     final List<String> carouselImages = [
-      'https://picsum.photos/800/400?random=1',
-      'https://picsum.photos/800/400?random=2',
-      'https://picsum.photos/800/400?random=3',
+      'assets/images/carousel/tart4.jpg',
+      'assets/images/carousel/tartan2.jpg',
     ];
 
     final events = [
@@ -266,7 +282,14 @@ class HomeContentPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TartanHabari', style: TextStyle(color: Colors.white)),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+        title: const Text('TartanHabari'),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications, color: Colors.white),
@@ -274,11 +297,138 @@ class HomeContentPage extends StatelessWidget {
           ),
         ],
       ),
+      
+      // LEFT DRAWER MENU
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Color(0xFFC41E3A),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
+                  CircleAvatar(
+                    radius: 35,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.person,
+                      size: 40,
+                      color: Color(0xFFC41E3A),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Student Portal',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'CMU Africa',
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.home),
+                    title: const Text('Home'),
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.notifications),
+                    title: const Text('Announcements'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AnnouncementsPage()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.favorite, color: Colors.green),
+                    title: const Text('Solid Mind', style: TextStyle(fontWeight: FontWeight.w500)),
+                    tileColor: Colors.green[50],
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SolidMindPage()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.event),
+                    title: const Text('Events Calendar'),
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.message),
+                    title: const Text('Suggestions'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SuggestionsPage()),
+                      );
+                    },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text('Settings'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SettingsPage()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.info_outline),
+                    title: const Text('About'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _showAboutDialog(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.help_outline),
+                    title: const Text('Help & Support'),
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.logout, color: Colors.red),
+                    title: const Text('Logout', style: TextStyle(color: Colors.red)),
+                    onTap: () {
+                      Navigator.pop(context);
+                      _showLogoutDialog(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Carousel Slider
+            // Carousel Slider - CUSTOMIZE WITH YOUR IMAGES
             CarouselSlider(
               options: CarouselOptions(
                 height: 200,
@@ -289,12 +439,15 @@ class HomeContentPage extends StatelessWidget {
               items: carouselImages.map((url) {
                 return Builder(
                   builder: (BuildContext context) {
+                    final ImageProvider imageProvider = url.startsWith('http')
+                        ? NetworkImage(url)
+                        : AssetImage(url);
                     return Container(
                       margin: const EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                          image: NetworkImage(url),
+                          image: imageProvider,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -384,6 +537,60 @@ class HomeContentPage extends StatelessWidget {
       ),
     );
   }
+
+  static void _showAboutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('About TartanHabari'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text('TartanHabari', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 8),
+            Text('Version 1.0.0'),
+            SizedBox(height: 16),
+            Text('CMU Africa Campus Connect Application'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+                (route) => false,
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Logout'),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // ==================== ANNOUNCEMENTS PAGE ====================
@@ -405,30 +612,34 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
       'date': DateTime(2025, 10, 15),
       'time': '2h ago'
     },
-    {
-      'title': 'Guest Lecture: Machine Learning in Healthcare',
-      'category': 'Event',
-      'date': DateTime(2025, 10, 22),
-      'time': '5h ago'
-    },
-    {
-      'title': 'Library Extended Hours During Finals',
-      'category': 'Campus News',
-      'date': DateTime(2025, 12, 1),
-      'time': '1d ago'
-    },
-    {
-      'title': 'Hackathon Registration Deadline',
-      'category': 'Event',
-      'date': DateTime(2025, 11, 1),
-      'time': '2d ago'
-    },
-    {
-      'title': 'AWS Cloud Practitioner Certification Workshop',
-      'category': 'Opportunity',
-      'date': DateTime(2025, 10, 28),
-      'time': '3d ago'
-    },
+   
+{
+    'title': 'Panel session - Student Research at CMU (2 Years/Associates)',
+    'category': 'Event',
+    'date': DateTime(2025, 10, 3),
+    'time': 'TBA',
+    'location': 'Lecture Hall',
+    'details': 'Panel featuring recent graduates and current students discussing their student research experiences at CMU.',
+    'audience': 'Panel speakers listed'
+  },
+  {
+    'title': 'Networking Mixer',
+    'category': 'Event',
+    'date': DateTime(2025, 9, 18),
+    'time': '6:00 PM - 8:00 PM',
+    'location': 'Student Lounge',
+    'details': 'Informal networking event for researchers to connect, share ideas, and explore potential collaborations over refreshments.',
+    'audience': 'Open to all members'
+  },
+  {
+    'title': 'Virtual SIGCOM 25 - Virtual conference attendance',
+    'category': 'Event',
+    'date': DateTime(2025, 9, 9),
+    'time': 'Sept 9 - Sept 11 (All-day)',
+    'location': 'Virtual',
+    'details': 'Join the virtual SIGCOM 25 conference. Sessions run through multiple days.',
+    'audience': 'Open to members'
+  }
   ];
 
   List<Map<String, dynamic>> get filteredAnnouncements {
@@ -454,11 +665,15 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Announcements', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('Announcements'),
+        centerTitle: true,
       ),
       body: Column(
         children: [
-          // Filter Section
           Container(
             padding: const EdgeInsets.all(16),
             color: Colors.white,
@@ -481,9 +696,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                                       },
                                       selectedColor: const Color(0xFFC41E3A),
                                       labelStyle: TextStyle(
-                                        color: _selectedFilter == filter
-                                            ? Colors.white
-                                            : Colors.black,
+                                        color: _selectedFilter == filter ? Colors.white : Colors.black,
                                       ),
                                     ),
                                   ))
@@ -494,9 +707,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                     IconButton(
                       icon: Icon(
                         Icons.calendar_today,
-                        color: _selectedDate != null
-                            ? const Color(0xFFC41E3A)
-                            : Colors.grey,
+                        color: _selectedDate != null ? const Color(0xFFC41E3A) : Colors.grey,
                       ),
                       onPressed: () async {
                         final date = await showDatePicker(
@@ -530,7 +741,6 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
             ),
           ),
           
-          // Announcements List
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
@@ -552,10 +762,7 @@ class _AnnouncementsPageState extends State<AnnouncementsPage> {
                         Row(
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
                                 color: Colors.blue[100],
                                 borderRadius: BorderRadius.circular(12),
@@ -594,7 +801,12 @@ class SolidMindPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Solid Mind', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('Solid Mind'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -612,10 +824,7 @@ class SolidMindPage extends StatelessWidget {
                       '"You are braver than you believe, stronger than you seem, '
                       'and smarter than you think."',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
                     ),
                   ],
                 ),
@@ -644,10 +853,7 @@ class SolidMindPage extends StatelessWidget {
                   children: [
                     const Text(
                       '🆘 Need Immediate Support?',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
                     const Text('24/7 Crisis Helpline: +250 788 XXX XXX'),
@@ -655,9 +861,9 @@ class SolidMindPage extends StatelessWidget {
                     ElevatedButton.icon(
                       onPressed: () {},
                       icon: const Icon(Icons.phone),
-                      label: const Text('Contact Counselor'),
+                      label: const Text('Contact Counselor'),  
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFC41E3A),
+                        backgroundColor: const Color.fromARGB(255, 206, 197, 197),
                       ),
                     ),
                   ],
@@ -679,10 +885,7 @@ class SolidMindPage extends StatelessWidget {
           children: [
             Icon(icon, size: 48, color: color),
             const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -709,7 +912,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
     'Student Life',
     'Cafeteria Services',
     'Library Resources',
-    'Mental Health Support',
+    'Solid Mind Support',
     'Career Services',
   ];
 
@@ -738,7 +941,12 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Anonymous Suggestions', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('Suggestions'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -755,8 +963,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                     SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        'Your feedback is completely anonymous and helps '
-                        'improve CMU Africa for everyone.',
+                        'As a member of this community, your feedback is invaluable in helping us '
+                        'Help us to improve our services and campus life. All suggestions are submitted anonymously to ensure your privacy.',
                         style: TextStyle(fontSize: 13),
                       ),
                     ),
@@ -799,7 +1007,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                hintText: 'Share your thoughts, ideas, or concerns...',
+                hintText: 'Here you can share your suggestions...',
               ),
             ),
             const SizedBox(height: 24),
@@ -811,7 +1019,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> {
                 icon: const Icon(Icons.send),
                 label: const Text('Submit Anonymously'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFC41E3A),
+                  backgroundColor: const Color.fromARGB(255, 211, 202, 204),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -834,15 +1042,20 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String _username = 'studentcmu';
-  String _email = 'student@cmu.ac.rw';
+  String _username = 'tartancmu';
+  String _email = 'tartancmu@cmu.ac.rw';
   bool _notificationsEnabled = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('Settings'),
+        centerTitle: true,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -873,7 +1086,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     icon: const Icon(Icons.edit),
                     label: const Text('Edit Profile'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFC41E3A),
+                      backgroundColor: const Color.fromARGB(255, 221, 206, 209),
                     ),
                   ),
                 ],
@@ -916,7 +1129,43 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: const Text('About'),
                   subtitle: const Text('Version 1.0.0'),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('About TartanHabari'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'TartanHabari',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text('Version 1.0.0'),
+                            SizedBox(height: 16),
+                            Text('CMU Africa Campus Connect Application'),
+                            SizedBox(height: 8),
+                            Text(
+                              'Stay connected with campus announcements, '
+                              'events, and wellness resources.',
+                              style: TextStyle(fontSize: 12, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Close'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 const Divider(height: 1),
                 ListTile(
@@ -935,9 +1184,32 @@ class _SettingsPageState extends State<SettingsPage> {
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Are you sure you want to logout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => const LoginPage()),
+                            (route) => false,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        child: const Text('Logout'),
+                      ),
+                    ],
+                  ),
                 );
               },
               icon: const Icon(Icons.logout, color: Colors.red),
@@ -1017,112 +1289,128 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 }
 
-// ==================== DATA MODELS (JSON Structure) ====================
 /*
-// announcements.json
-{
-  "announcements": [
-    {
-      "id": "1",
-      "title": "Google Africa Internship Applications Open",
-      "category": "Opportunity",
-      "description": "Google is now accepting applications for summer 2026 internships...",
-      "date": "2025-10-15T10:00:00Z",
-      "priority": "high",
-      "link": "https://careers.google.com/africa"
-    },
-    {
-      "id": "2",
-      "title": "Guest Lecture: Machine Learning in Healthcare",
-      "category": "Event",
-      "description": "Join Dr. Sarah Johnson for an insightful session...",
-      "date": "2025-10-22T14:00:00Z",
-      "priority": "medium",
-      "location": "Main Auditorium"
-    }
-  ]
-}
+=============================================================================
+CUSTOMIZATION GUIDE FOR CAROUSEL IMAGES/VIDEOS
+=============================================================================
 
-// events.json
-{
-  "events": [
-    {
-      "id": "1",
-      "title": "Orientation Week",
-      "description": "Welcome new students to CMU Africa",
-      "startDate": "2025-08-25",
-      "endDate": "2025-08-30",
-      "location": "Main Campus",
-      "category": "Academic",
-      "isRecurring": false
-    },
-    {
-      "id": "2",
-      "title": "Tech Innovation Summit",
-      "description": "Annual technology and innovation conference",
-      "startDate": "2025-09-15",
-      "endDate": "2025-09-15",
-      "location": "Conference Hall",
-      "category": "Conference",
-      "speakers": ["Prof. John Doe", "Dr. Jane Smith"]
-    }
-  ]
-}
+1. FILE STRUCTURE:
+   Create these folders in your Flutter project root:
+   
+   tartanhabari/
+   └── assets/
+       ├── images/
+       │   ├── logo.png                    (Your CMU logo)
+       │   └── carousel/
+       │       ├── slide1.jpg              (Carousel image 1)
+       │       ├── slide2.jpg              (Carousel image 2)
+       │       └── slide3.jpg              (Carousel image 3)
+       └── videos/
+           └── campus_tour.mp4              (Campus video)
 
-// solid_mind_tips.json
-{
-  "tips": [
-    {
-      "id": "1",
-      "course": "Artificial Intelligence for Engineers",
-      "title": "Preparing for Your AI Exam",
-      "content": "Break study sessions into 45-min blocks. Practice neural network diagrams daily. Join study groups for collaborative learning.",
-      "icon": "brain",
-      "stressLevel": "medium",
-      "techniques": [
-        "Pomodoro Technique",
-        "Active Recall",
-        "Spaced Repetition"
-      ]
-    },
-    {
-      "id": "2",
-      "title": "Managing Exam Stress",
-      "content": "Deep breathing for 5 minutes can reduce anxiety and improve focus. Take regular breaks and stay hydrated.",
-      "icon": "meditation",
-      "stressLevel": "high",
-      "techniques": [
-        "Deep Breathing",
-        "Progressive Muscle Relaxation",
-        "Mindfulness"
-      ]
-    }
-  ],
-  "resources": [
-    {
-      "title": "Counseling Services",
-      "contact": "+250 788 XXX XXX",
-      "email": "counseling@cmu.ac.rw",
-      "hours": "24/7"
-    }
-  ]
-}
+2. UPDATE pubspec.yaml:
+   Add these lines under 'flutter:' section:
+   
+   flutter:
+     uses-material-design: true
+     assets:
+       - assets/images/
+       - assets/images/carousel/
+       - assets/videos/
 
-// user_profile.json
-{
-  "user": {
-    "id": "12345",
-    "username": "studentcmu",
-    "email": "student@cmu.ac.rw",
-    "fullName": "John Doe",
-    "profileImage": "https://example.com/profile.jpg",
-    "program": "MSIT",
-    "year": "2025",
-    "preferences": {
-      "notifications": true,
-      "language": "en",
-      "theme": "light"
-    }
-  }
-}
+3. REPLACE CAROUSEL IMAGES (Line 370-375 in main.dart):
+   Change from:
+   final List<String> carouselImages = [
+     'https://picsum.photos/800/400?random=1',
+     'https://picsum.photos/800/400?random=2',
+     'https://picsum.photos/800/400?random=3',
+   ];
+   
+   To:
+   final List<String> carouselImages = [
+     'assets/images/carousel/slide1.jpg',
+     'assets/images/carousel/slide2.jpg',
+     'assets/images/carousel/slide3.jpg',
+   ];
+
+4. UPDATE IMAGE WIDGET (Line 490-495):
+   Change from:
+   image: NetworkImage(url),
+   
+   To:
+   image: AssetImage(url),
+
+5. REPLACE LOGO (Line 70-85):
+   Change from:
+   child: const Icon(
+     Icons.newspaper,
+     size: 60,
+     color: Colors.white,
+   ),
+   
+   To:
+   child: Image.asset(
+     'assets/images/logo.png',
+     width: 80,
+     height: 80,
+   ),
+
+6. FOR VIDEO IN CAROUSEL (Optional):
+   Add video_player package to pubspec.yaml:
+   dependencies:
+     video_player: ^2.8.1
+   
+   Then create a custom widget for video player in carousel
+
+=============================================================================
+COMPLETE PUBSPEC.YAML EXAMPLE
+=============================================================================
+
+name: tartanhabari
+description: CMU Africa Campus Connect Application
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  carousel_slider: ^4.2.1
+  video_player: ^2.8.1
+  intl: ^0.18.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/images/carousel/
+    - assets/videos/
+
+=============================================================================
+KEY FEATURES IMPLEMENTED
+=============================================================================
+
+✅ Login Page with demo credentials (tartancmu/password)
+✅ Home Page with LEFT drawer menu (hamburger icon)
+✅ Carousel slider for images (customizable)
+✅ Academic calendar 2025-2026
+✅ Solid Mind tips section
+✅ Announcements page with FILTERS:
+   - Category filter (Event, Opportunity, Campus News)
+   - Date picker filter
+✅ Solid Mind wellness page
+✅ Anonymous suggestions page with CMU-specific categories
+✅ Settings page with profile editing
+✅ All pages have BACK BUTTON (left) and CENTERED TITLE
+✅ Bottom navigation bar
+
+=============================================================================
 */
